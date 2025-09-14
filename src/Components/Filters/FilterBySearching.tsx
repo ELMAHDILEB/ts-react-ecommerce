@@ -1,7 +1,7 @@
 
 interface Props {
-      search: (string | number);
-      setSearch: (value : (string | number)) => void;
+      search: string;
+      setSearch: (value : string) => void;
 
 }
 const FilterBySearching = ({ search, setSearch }: Props) => {

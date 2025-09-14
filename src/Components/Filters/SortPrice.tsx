@@ -8,7 +8,7 @@ const SortPrice = ({SortOrder, setSortOrder}: Props) => {
       const value = e.target.value;
 
       if(value === "" || value === "asc" || value === "desc") {
-        setSortOrder(value);
+        setSortOrder(value as "" | "asc" | "desc");
       }
   }
   return (

@@ -4,12 +4,18 @@ import Products from "./Components/Products";
 import type { Product } from "./Types/Product";
 
 const App = () => {
-  const BASE_URL = "https://dummyjson.com/products";
 
+
+  const BASE_URL = "https://dummyjson.com/products";
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const AbortControllerRef = useRef<AbortController | null>(null);
+
+
+
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -46,11 +52,11 @@ const App = () => {
   }
 
   return (
-    <div className="h-screen w-full text-black dark:text-white bg-slate-50 dark:bg-black transition -all duration-500">
+    <div className=" w-full md:w-[80%]  h-screen mx-auto p-3 ">
       <Header />
       {loading && <h1>isLoading...</h1>}
       {
-        !loading && <Products items={products}/>
+        !loading && <Products items={products} />
       }
     </div>
   );

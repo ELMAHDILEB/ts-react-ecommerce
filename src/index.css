@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+    @apply bg-white text-black dark:bg-black dark:text-white transition-all duration-500;
+  }
