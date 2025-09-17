@@ -1,10 +1,10 @@
-
-interface Props {
-      search: string;
-      setSearch: (value : string) => void;
-
+interface FilterBySearchingProps {
+  search: string;
+  setSearch: (value: string) => void;
 }
-const FilterBySearching = ({ search, setSearch }: Props) => {
+
+const FilterBySearching = ({search, setSearch}: FilterBySearchingProps) => {
+
   return (
     <section>
 

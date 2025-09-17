@@ -1,12 +1,13 @@
 import type { Product } from "../../Types/Product";
 
-interface Props{
-    category: string;
-    setCategory: (value: string)=> void;
-    items: Product[];
+interface FilterByCategoryProps{
+  category: string;
+  setCategory: (value: string)=> void;
+  items: Product[];
 }
 
-const FilterByCategory = ({category, setCategory, items}: Props) => {
+const FilterByCategory = ({category, setCategory, items}: FilterByCategoryProps) => {
+
   const categories = Array.from(new Set(items.map(item => item.category)));
 
   return (

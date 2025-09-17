@@ -1,69 +1,67 @@
-# React + TypeScript + Vite
+# Products Filter & Sorting App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React + TypeScript app that displays products fetched from an API. It allows users to **filter, search, and sort products**. The app uses **Redux Toolkit** for state management and **RTK Query** for API requests.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Fetch products from API using RTK Query.
+- Search products by name.
+- Filter products by category.
+- Sort products by price (ascending or descending).
+- Filter products by rating.
+- Display "No products found" if no item matches the filters.
+- Fully typed with TypeScript.
+- Responsive UI using Tailwind CSS.
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+src/
+├─ api/
+│ └─ apiSlice.ts # RTK Query setup for API requests
+├─ Components/
+│ ├─ Filters/
+│ │ ├─ FilterByCategory.tsx
+│ │ ├─ FilterBySearching.tsx
+│ │ ├─ SortPrice.tsx
+│ │ └─ FilterByRating.tsx
+│ ├─ Header.tsx
+│ └─ Products.tsx
+├─ features/
+│ └─ filters/
+│ └─ filtersSlice.ts # Redux Toolkit slice for filters
+├─ Store/
+│ └─ hook.ts # Typed hooks for Redux
+├─ Types/
+│ └─ Product.ts # Product interface
+└─ App.tsx
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+```bash
+git clone <your-repo-url>
+cd <project-folder>
+npm install
+npm run dev
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Usage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Use the search bar to filter products by title.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Select a category to filter products by category.
+
+Sort products by price using the dropdown.
+
+Use the rating filter to only show products with a minimum rating.
+
+If no products match your filters, a "No products found" message is displayed.
+
+Tech Stack
+
+React 18 + TypeScript
+
+Redux Toolkit + RTK Query
+
+Tailwind CSS
+
+Vite

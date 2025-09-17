@@ -1,16 +1,13 @@
-// import { useEffect, useRef, useState } from "react";
 import Header from "./Components/Header";
 import Products from "./Components/Products";
-// import type { Product } from "./Types/Product";
-import { useGetProductsQuery } from "./features/api/apiSlice";
+import { useGetProductsQuery } from "./api/apiSlice";
 
 const App = () => {
 
   const { data: products=[], error, isLoading} = useGetProductsQuery();
 
-  
 
-  if(isLoading) return <h1>isLoading...</h1>;
+  if(isLoading) return <h1 className="w-full h-screen text-3xl font-bold flex items-center justify-center">isLoading...</h1>;
   if(error) return <div className="text-red-500">Error loading products</div>;
 
   return (

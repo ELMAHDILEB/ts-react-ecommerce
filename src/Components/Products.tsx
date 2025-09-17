@@ -1,26 +1,34 @@
-import { useState } from "react";
+
 import type { Product } from "../Types/Product";
 import FilterByCategory from "./Filters/FilterByCategory";
 import FilterBySearching from "./Filters/FilterBySearching";
 import SortPrice from "./Filters/SortPrice";
+import { useGetProductsQuery } from "../api/apiSlice";
+import { useAppDispatch, useAppSelector } from "../Store/hook";
+import { setCategory, setRating, setSearch, setSortPrice } from "../features/filters/filtersSlice";
+import FilterByRating from "./Filters/FilterByRating";
+
 
 interface itemsProducts {
   items: Product[];
 }
 
 const Products = ({ items }: itemsProducts) => {
-  const [category, setCategory] = useState("all");
-  const [sortPrice, setSortPrice] = useState<"asc" | "desc" | "">("");
-  const [search, setSearch] = useState("");
 
-  let filtredItems = items;
+  const dispatch = useAppDispatch();
+
+  const { data, isLoading } = useGetProductsQuery(undefined);
+  const { category, search, sortPrice, rating } = useAppSelector((state)=> state.filters);
+
+  if (isLoading) return <p>Loading...</p>;
+  let filtredItems = [...(data || [])];
    
   if(category !== "all"){
-    filtredItems = filtredItems.filter(item =>item.category === category);
+    filtredItems = filtredItems.filter((item: any) =>item.category === category);
   }
 
   if(search){
-    filtredItems = filtredItems.filter(item => item.title.toLowerCase().includes(search.toLowerCase()) );
+    filtredItems = filtredItems.filter((item: any) => item.title.toLowerCase().includes(search.toLowerCase()) );
   }
   if(sortPrice === "asc"){
     filtredItems = filtredItems.sort((a,b) =>  a.price - b.price)
@@ -28,16 +36,25 @@ const Products = ({ items }: itemsProducts) => {
     filtredItems = filtredItems.sort((a,b)=> b.price - a.price)
   }
 
+  if(rating > 0){
+    filtredItems = filtredItems.filter((item: any)=> item.rating >= rating);
+  }
+
   return (
     <main className="w-full h-auto flex flex-col  pt-10">
       <section className="w-full p-2 flex flex-wrap items-center justify-between m-3">
-        <FilterBySearching  search={search} setSearch={setSearch}/>
-        <FilterByCategory  category={category} setCategory={setCategory} items={items}/>
-        <SortPrice  SortOrder={sortPrice} setSortOrder={setSortPrice}/>
+        <FilterBySearching  search={search} setSearch={(value: string)=> dispatch(setSearch(value))}/>
+        <FilterByCategory  category={category} setCategory={(value: string)=> dispatch(setCategory(value))} items={items}/>
+        <SortPrice  sortPrice={sortPrice} setSortPrice={(value: "" | "asc" | "desc")=> dispatch(setSortPrice(value))}/>
+        <FilterByRating rating={rating} setRating={(value: number)=> dispatch(setRating(value))}/>
       </section>
 
-      <section className="w-full flex flex-wrap items-center justify-between gap-3">
-        {filtredItems.map((item) => (
+      <section className="w-full flex flex-wrap items-center justify-center  gap-3">
+        {
+            filtredItems.length === 0 ? (<p className="text-xl font-bold text-red-500">
+            No products found.
+          </p>) :
+  ((      filtredItems?.map((item) => (
           <article key={item.id} className="w-[300px] h-auto bg-slate-400 rounded-xl flex flex-col justify-between items-center gap-2 p-2 ">
             <figure className="w-full h-[150px]">
               <img
@@ -52,8 +69,8 @@ const Products = ({ items }: itemsProducts) => {
               <section className="flex justify-between">
                 <p>{item.price}$</p>
                 <p>
-                  {item.rating}
-                  <span className="text-yellow-400">&#9733;</span>
+                ⭐ {item.rating}
+                  
                 </p>
               </section>
               <p className="capitalize ">
@@ -66,7 +83,7 @@ const Products = ({ items }: itemsProducts) => {
                 add to cart +
               </button>
             </footer>
-          </article>
+          </article>))
         ))}
       </section>
 
