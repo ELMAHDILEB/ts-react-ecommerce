@@ -6,9 +6,9 @@ interface FilterBySearchingProps {
 const FilterBySearching = ({search, setSearch}: FilterBySearchingProps) => {
 
   return (
-    <section className="w-auto p-2 flex-1">
+    <section className="w-full h-10">
 
-        <input className="w-full p-2  outline-none focus:border-gray-300 border-2 border-solid rounded-[5px]" type="search" placeholder="Search Products..."  value={search}  onChange={(e)=>setSearch(e.target.value)}/>
+        <input className="w-full p-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-900 dark:border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" type="search" placeholder="Search Products..."  value={search}  onChange={(e)=>setSearch(e.target.value)}/>
       
     </section>
   )

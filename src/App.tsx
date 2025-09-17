@@ -11,7 +11,7 @@ const App = () => {
   if(error) return <div className="text-red-500">Error loading products</div>;
 
   return (
-    <div className=" w-full md:w-[80%]  h-screen mx-auto p-3 ">
+    <div className=" w-full md:w-[80%]   mx-auto p-3 ">
       <Header />
         <Products items={products} />
     </div>

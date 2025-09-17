@@ -7,21 +7,21 @@ import { useGetProductsQuery } from "../api/apiSlice";
 import { useAppDispatch, useAppSelector } from "../Store/hook";
 import { setCategory, setRating, setSearch, setSortPrice } from "../features/filters/filtersSlice";
 import FilterByRating from "./Filters/FilterByRating";
+import { useSearchParams } from "react-router-dom";
 
+const Products = () => {
 
-interface itemsProducts {
-  items: Product[];
-}
-
-const Products = ({ items }: itemsProducts) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const dispatch = useAppDispatch();
+  const page = Number(searchParams.get("_page") || 1);
+  const limit = Number(searchParams.get("limit") || 20);
 
-  const { data, isLoading } = useGetProductsQuery(undefined);
+  const { data, isLoading } = useGetProductsQuery({page,limit});
   const { category, search, sortPrice, rating } = useAppSelector((state)=> state.filters);
 
   if (isLoading) return <p>Loading...</p>;
-  let filtredItems = [...(data || [])];
+  let filtredItems = data?.products ? [...data.products] : [];[...filtredItems]
    
   if(category !== "all"){
     filtredItems = filtredItems.filter((item: any) =>item.category === category);
@@ -31,9 +31,9 @@ const Products = ({ items }: itemsProducts) => {
     filtredItems = filtredItems.filter((item: any) => item.title.toLowerCase().includes(search.toLowerCase()) );
   }
   if(sortPrice === "asc"){
-    filtredItems = filtredItems.sort((a,b) =>  a.price - b.price)
+    filtredItems = [...filtredItems].sort((a,b) =>  a.price - b.price)
   }else if(sortPrice === "desc"){
-    filtredItems = filtredItems.sort((a,b)=> b.price - a.price)
+    filtredItems = [...filtredItems].sort((a,b)=> b.price - a.price)
   }
 
   if(rating > 0){
@@ -41,21 +41,21 @@ const Products = ({ items }: itemsProducts) => {
   }
 
   return (
-    <main className="w-full h-auto flex flex-col  pt-10">
-      <section className="w-full p-2 flex flex-wrap items-center justify-between m-3">
+    <main className="w-full  flex flex-col  pt-10 text-black dark:text-white">
+      <section className="w-full p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 m-3">
         <FilterBySearching  search={search} setSearch={(value: string)=> dispatch(setSearch(value))}/>
-        <FilterByCategory  category={category} setCategory={(value: string)=> dispatch(setCategory(value))} items={items}/>
+        <FilterByCategory  category={category} setCategory={(value: string)=> dispatch(setCategory(value))} items={data?.products || []}/>
         <SortPrice  sortPrice={sortPrice} setSortPrice={(value: "" | "asc" | "desc")=> dispatch(setSortPrice(value))}/>
         <FilterByRating rating={rating} setRating={(value: number)=> dispatch(setRating(value))}/>
       </section>
 
-      <section className="w-full flex flex-wrap items-center justify-center  gap-3">
+      <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
         {
             filtredItems.length === 0 ? (<p className="text-xl font-bold text-red-500">
             No products found.
           </p>) :
   ((      filtredItems?.map((item) => (
-          <article key={item.id} className="w-[300px] h-auto bg-slate-400 rounded-xl flex flex-col justify-between items-center gap-2 p-2 ">
+          <article key={item.id} className="w-full h-auto border-gray-300 bg-slate-300 dark:bg-gray-900 dark:border-gray-700 rounded-xl flex flex-col justify-between items-center gap-2 p-2 ">
             <figure className="w-full h-[150px]">
               <img
                 src={item.thumbnail}
@@ -87,17 +87,16 @@ const Products = ({ items }: itemsProducts) => {
         ))}
       </section>
 
-      {/* <ul className="w-full h-full flex flex-wrap items-center justify-between gap-3">
-        {items.map((item) => (
-          <li key={item.id} className="w-[200px] h-[300px]  bg-slate-500 flex flex-col items-center rounded-b-xl">
-              <div className="w-full h-[130px]">
-              <img  src={item.thumbnail}alt={item.title} className="w-full h-full object-contain"/>
-              </div>
-            {item.title} - ${item.price}
-          </li>
-        ))}
-      </ul> */}
+       <footer>
+        <section className="w-full flex items-center justify-center gap-5">
+          <button className="" disabled={page === 1} onClick={()=> setSearchParams({_page: String(Math.max(page -1, 1)), _limit: String(limit)})}>Prev</button>
+          <span className="">{page} / {data?.total}</span>
+          <button className="" disabled={data?.total && page >= Math.ceil(data.total / limit) } onClick={()=> setSearchParams({_page: String(page + 1), _limit: String(limit)})}>Next</button>
+        </section>
+       </footer>
     </main>
+
+
   );
 };
 
