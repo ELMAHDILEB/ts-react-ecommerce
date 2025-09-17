@@ -15,7 +15,7 @@ interface sortPriceProps{
   }
   return (
     <div>
-        <select value={sortPrice} onChange={handleSortPrice}>
+        <select value={sortPrice} onChange={handleSortPrice} className="flex-1">
               <option value="">All</option>
               <option value="asc">Price: Low To High</option>
               <option value="desc">Price: High To Low</option>

@@ -1,14 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Product } from "../Types/Product";
 
-interface ProductsResponse{
-    products:Product[];
-    total:number;
-    skip:number;
-    limit:number;
-
-}
-
 export const  apiSlice  = createApi({
     reducerPath:  "api", // name slice on store
     baseQuery: fetchBaseQuery({baseUrl: "https://dummyjson.com/"}),

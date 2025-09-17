@@ -5,8 +5,8 @@ const Header = () => {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <header className="w-full md:w-4/5 h-[50px]  flex items-center justify-between mx-auto px-10 border-slate-300 border-b-2 border-solid ">
-      <h1 className="font-bold text-2xl uppercase">Products Cards</h1>
+    <header className="w-full h-[50px]  flex items-center justify-between mx-auto px-10 border-slate-300 border-b-2 border-solid ">
+      <h1 className="font-bold text-[15px] md:text-2xl uppercase">Products Cards</h1>
 
       <nav className="flex items-center gap-10">
         <ul>

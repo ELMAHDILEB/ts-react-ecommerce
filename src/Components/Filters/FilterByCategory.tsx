@@ -11,7 +11,7 @@ const FilterByCategory = ({category, setCategory, items}: FilterByCategoryProps)
   const categories = Array.from(new Set(items.map(item => item.category)));
 
   return (
-    <select value={category} onChange={(e)=> setCategory(e.target.value)}>
+    <select value={category} onChange={(e)=> setCategory(e.target.value)} className="flex-1">
           <option value="all">All</option>
           {
               categories.map((cat)=>

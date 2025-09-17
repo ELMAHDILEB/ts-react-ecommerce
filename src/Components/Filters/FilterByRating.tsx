@@ -6,7 +6,7 @@ interface FilterByRatingProps{
 const FilterByRating = ({ rating, setRating}: FilterByRatingProps) => {
     
   return (
-    <div>
+    <div className="flex-1">
         <select value={rating} onChange={(e)=>setRating(Number(e.target.value))}>
         <option value={0}>All Ratings</option>
         <option value={1}>⭐ 1 & up</option>
