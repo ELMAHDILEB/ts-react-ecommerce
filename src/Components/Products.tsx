@@ -1,45 +1,29 @@
-
-import type { Product } from "../Types/Product";
-import FilterByCategory from "./Filters/FilterByCategory";
-import FilterBySearching from "./Filters/FilterBySearching";
-import SortPrice from "./Filters/SortPrice";
+import {FilterByCategory, FilterBySearching, FilterByRating, SortPrice} from "./Filters/Filters.tsx";
+import { setCategory, setRating, setSearch, setSortPrice } from "../features/filters/filtersSlice";
 import { useGetProductsQuery } from "../api/apiSlice";
 import { useAppDispatch, useAppSelector } from "../Store/hook";
-import { setCategory, setRating, setSearch, setSortPrice } from "../features/filters/filtersSlice";
-import FilterByRating from "./Filters/FilterByRating";
-import { useSearchParams } from "react-router-dom";
+import { filterProducts } from "../Utils/FilterUtils.ts"
+import type { Product } from "../Types/Product";
 
-const Products = () => {
+interface ProductsProps { 
+    items: Product[];
+    page: number;
+    limit: number; 
+    setSearchParams: (params: Record<string,string>) => void;
+    total: number; 
+}
 
-  const [searchParams, setSearchParams] = useSearchParams();
+const Products = ({items, page, limit, setSearchParams, total}: ProductsProps) => {
 
   const dispatch = useAppDispatch();
-  const page = Number(searchParams.get("_page") || 1);
-  const limit = Number(searchParams.get("limit") || 20);
+
 
   const { data, isLoading } = useGetProductsQuery({page,limit});
   const { category, search, sortPrice, rating } = useAppSelector((state)=> state.filters);
+  const totalPages = data?.total ? Math.ceil(data.total / limit) : 1;
 
   if (isLoading) return <p>Loading...</p>;
-  let filtredItems = data?.products ? [...data.products] : [];[...filtredItems]
-   
-  if(category !== "all"){
-    filtredItems = filtredItems.filter((item: any) =>item.category === category);
-  }
-
-  if(search){
-    filtredItems = filtredItems.filter((item: any) => item.title.toLowerCase().includes(search.toLowerCase()) );
-  }
-  if(sortPrice === "asc"){
-    filtredItems = [...filtredItems].sort((a,b) =>  a.price - b.price)
-  }else if(sortPrice === "desc"){
-    filtredItems = [...filtredItems].sort((a,b)=> b.price - a.price)
-  }
-
-  if(rating > 0){
-    filtredItems = filtredItems.filter((item: any)=> item.rating >= rating);
-  }
-
+  let filtredItems = filterProducts(data?.products || [], { category, search, sortPrice, rating})
   return (
     <main className="w-full  flex flex-col  pt-10 text-black dark:text-white">
       <section className="w-full p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 m-3">
@@ -88,11 +72,14 @@ const Products = () => {
       </section>
 
        <footer>
-        <section className="w-full flex items-center justify-center gap-5">
-          <button className="" disabled={page === 1} onClick={()=> setSearchParams({_page: String(Math.max(page -1, 1)), _limit: String(limit)})}>Prev</button>
-          <span className="">{page} / {data?.total}</span>
-          <button className="" disabled={data?.total && page >= Math.ceil(data.total / limit) } onClick={()=> setSearchParams({_page: String(page + 1), _limit: String(limit)})}>Next</button>
-        </section>
+      {
+        filtredItems.length > 0 &&   <section className="w-full flex items-center justify-center gap-5">
+        <button className="" disabled={page === 1} onClick={()=> setSearchParams({_page: String(Math.max(page -1, 1)), _limit: String(limit)})}>Prev</button>
+        <span className="">{page} / {data?.total}</span>
+        <button disabled={page >= totalPages} onClick={()=> setSearchParams({_page: String(page + 1), _limit: String(limit)})}>Next</button>
+      </section> 
+      // <p></p>
+      }
        </footer>
     </main>
 
