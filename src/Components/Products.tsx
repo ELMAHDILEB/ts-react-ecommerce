@@ -13,7 +13,7 @@ interface ProductsProps {
     total: number; 
 }
 
-const Products = ({items, page, limit, setSearchParams, total}: ProductsProps) => {
+const Products = ({page, limit, setSearchParams}: ProductsProps) => {
 
   const dispatch = useAppDispatch();
 
