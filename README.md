@@ -15,6 +15,7 @@ This project is a React + TypeScript app that displays products fetched from an 
 
 ## Project Structure
 
+```bash
 src/
 ├─ api/
 │ └─ apiSlice.ts # RTK Query setup for API requests
