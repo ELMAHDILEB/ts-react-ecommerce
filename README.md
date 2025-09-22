@@ -69,8 +69,8 @@ src/
 ## Installation
 
 ```bash
-git clone <your-repo-url>
-cd <project-folder>
+git clone <https://github.com/ELMAHDILEB/ts-react-ecommerce>
+cd <ts-react-ecommerce>
 npm install
 npm run dev
 
