@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { ThemeProvider } from "./Components/ThemeContext.tsx";
 import { Provider } from "react-redux";
-import { store } from "./Store/Store.ts";
+import { store } from "./app/Store.ts";
 import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")!).render(

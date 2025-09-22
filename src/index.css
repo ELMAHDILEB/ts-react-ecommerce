@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 html, body {
-    @apply bg-white text-black dark:bg-black dark:text-white transition-all duration-500;
+    @apply min-h-screen bg-white text-black dark:bg-black dark:text-white transition-all duration-500;
   }
