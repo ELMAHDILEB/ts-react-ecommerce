@@ -18,21 +18,50 @@ This project is a React + TypeScript app that displays products fetched from an 
 src/
 ├─ api/
 │ └─ apiSlice.ts # RTK Query setup for API requests
-├─ Components/
-│ ├─ Filters/
+│
+├─ components/
+│ ├─ filters/
 │ │ ├─ FilterByCategory.tsx
 │ │ ├─ FilterBySearching.tsx
 │ │ ├─ SortPrice.tsx
 │ │ └─ FilterByRating.tsx
-│ ├─ Header.tsx
-│ └─ Products.tsx
+│ │
+│ ├─ common/
+│ │ └─ Header.tsx
+│ │
+│ ├─ products/
+│ │ ├─ Products.tsx
+│ │ └─ ProductCard.tsx
+│ │
+│ ├─ cart/
+│ │ └─ ShoppingCart.tsx
+│ │
+│ └─ wishlist/
+│ └─ WishList.tsx
+│
 ├─ features/
+│ ├─ cart/
+│ │ └─ cartSlice.ts
+│ │
 │ └─ filters/
-│ └─ filtersSlice.ts # Redux Toolkit slice for filters
-├─ Store/
-│ └─ hook.ts # Typed hooks for Redux
-├─ Types/
+│ └─ filtersSlice.ts
+│
+├─ store/
+│ ├─ store.ts
+│ └─ hooks.ts # Typed hooks for Redux
+│
+├─ layout/
+│ └─ MainLayout.tsx
+│
+├─ services/
+│ └─ apiSlice.ts
+│
+├─ types/
 │ └─ Product.ts # Product interface
+│
+├─ utils/
+│ └─ filterUtils.ts
+│
 └─ App.tsx
 
 
