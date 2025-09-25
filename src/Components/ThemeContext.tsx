@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useEffect, useState, type ReactNode } from "react";
 
 type ThemeContextType = {
       isDarkMode: boolean,
@@ -29,7 +29,9 @@ export  const ThemeProvider = ({children} : Props) => {
      }
    }, [isDarkMode]);
 
-   const toggleTheme = ()=> setIsDarkMode(!isDarkMode);
+   const toggleTheme = useCallback(()=>{setIsDarkMode((prev)=>!prev)},[]);
+
+
     
   return (
     <ThemeContext.Provider value={{isDarkMode, toggleTheme}}>

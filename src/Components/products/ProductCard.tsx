@@ -1,28 +1,31 @@
 import { useAppDispatch } from "../../app/hook";
 import type { Product } from "../../Types/Product";
 import { addToCart } from "../../features/cart/CartSlice";
+import React, { useCallback } from "react";
+
 
 interface CardProps{
 product: Product;
 }
 
-const ProductCard = ({product}: CardProps) => {
+const ProductCard = React.memo(
+  ({product}: CardProps) => {
 
     const dispatch = useAppDispatch();
 
-    const handleAdd = ()=>{
-           dispatch(
-            addToCart({
-                 id: String(product.id),
-                 title: product.title,
-                 image: String(product.thumbnail),
-                 price: product.price,
-                 rating: product.rating,
-                 quantity: 1,
 
-            })
-           )
-    }
+    const handleAdd = useCallback(()=>{
+      dispatch(
+        addToCart({
+             id: String(product.id),
+             title: product.title,
+             image: String(product.thumbnail),
+             price: product.price,
+             rating: product.rating,
+             quantity: 1,
+  
+        }));
+    }, [dispatch, product]);
 
   return (
 
@@ -32,6 +35,7 @@ const ProductCard = ({product}: CardProps) => {
                 src={product.thumbnail}
                 alt={product.title}
                 className="w-full h-full object-contain"
+                loading="lazy"
               />
             </figure>
 
@@ -58,5 +62,6 @@ const ProductCard = ({product}: CardProps) => {
 
   )
 }
+)
 
 export default ProductCard;

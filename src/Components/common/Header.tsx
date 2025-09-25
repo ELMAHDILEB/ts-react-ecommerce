@@ -1,11 +1,12 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../ThemeContext";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hook";
 
 const Header = () => {
   const items = useAppSelector(state=> state.cart.items);
-  const totalItems = items.reduce((acc, item)=> acc + item.quantity, 0);
+  const totalItems = React.useMemo(()=>{
+    return items.reduce((acc, item)=> acc + item.quantity, 0)},[items])
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
 
   return (
@@ -86,4 +87,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

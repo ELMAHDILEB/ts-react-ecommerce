@@ -1,11 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { removeFromCart, clearCart, increaseQuantity, decreaseQuantity } from "../../features/cart/CartSlice";
+import React from "react";
 
 const ShoppingCart = () => {
   const items = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
-  const subtotal = items.reduce((acc, item)=> acc + item.price * item.quantity, 0 )
+  const subtotal = React.useMemo(()=>{
+     return items.reduce((acc, item)=> acc + item.price * item.quantity, 0 )},[items]);
 
   return (
 
@@ -20,7 +22,7 @@ const ShoppingCart = () => {
                 items.map(item =>{
                  return  <article key={item.id} className="w-full h-auto border-gray-300 bg-slate-300 dark:bg-gray-900 dark:border-gray-700 rounded-xl flex justify-between md:justify-around items-center gap-2 p-2 ">
                   <figure className=" w-[100px] h-[100px] rounded-[50%] ">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-contain rounded-[50%]" />
+                    <img src={item.image} alt={item.title} className="w-full h-full object-contain rounded-[50%]"  loading="lazy"/>
                   </figure>
       
                   <header className="flex flex-col  items-center gap-5  text-center">

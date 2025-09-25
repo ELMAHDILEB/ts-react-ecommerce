@@ -15,7 +15,10 @@ const FilterByCategory = ({category, setCategory, items}: FilterByCategoryProps)
   },[items]);
 
   return (
-    <select value={category} onChange={(e)=> setCategory(e.target.value)} className="w-full h-10  px-3 rounded-lg border border-gray-300 bg-white dark:bg-gray-900 dark:border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <select value={category} onChange={(e)=> {
+           let selectedCategory = e.target.value;
+           if(selectedCategory) setCategory(e.target.value);
+    }} className="w-full h-10  px-3 rounded-lg border border-gray-300 bg-white dark:bg-gray-900 dark:border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="all">All</option>
           {
               categories.map((cat)=>

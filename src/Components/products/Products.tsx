@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hook.ts";
 import { filterProducts } from "../../Utils/FilterUtils.ts"
 import type { Product } from "../../Types/Product.ts";
 import ProductCard from "./ProductCard.tsx";
+import React from "react";
 
 interface ProductsProps { 
     items: Product[];
@@ -23,7 +24,11 @@ const Products = ({page, limit, setSearchParams}: ProductsProps) => {
   const totalPages = data?.total ? Math.ceil(data.total / limit) : 1;
 
   if (isLoading) return <p>Loading...</p>;
-  let filtredItems = filterProducts(data?.products || [], { category, search, sortPrice, rating})
+  const filtredItems = React.useMemo(
+    ()=> filterProducts(data?.products || [], { category, search, sortPrice, rating}),
+    [data?.products, category, search, sortPrice, rating]
+  );
+
   return (
     <main className="w-full  flex flex-col  pt-10 text-black dark:text-white">
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:m-3 p-2">
